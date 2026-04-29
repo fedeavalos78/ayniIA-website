@@ -301,12 +301,28 @@
     footer {
       position: relative;
       z-index: 1;
-      text-align: center;
-      font-size: 0.72rem;
-      color: rgba(232,240,238,0.2);
-      padding-bottom: 1.5rem;
-      font-family: 'DM Sans', sans-serif;
+      width: 100%;
+      background: #ffffff;
       animation: fadeIn 1.5s 0.8s both;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 2rem 1.5rem 1.8rem;
+    }
+
+    .footer-logo {
+      width: 160px;
+      max-width: 60vw;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: #999;
+      font-family: 'DM Sans', sans-serif;
     }
 
     /* Animations */
@@ -344,14 +360,9 @@
       Próximamente
     </div>
 
-    <!-- Logo -->
-    <div class="logo-wrap">
-      <img src="ayniAI__logo.png" alt="ayni IA" class="logo">
-    </div>
-
     <!-- Headline -->
     <div class="headline">
-      <h1>Inteligencia Artificial<br>al servicio de tu negocio</h1>
+      <h1>Inteligencia Artificial</h1>
       <p>Estamos construyendo algo increíble. Mientras tanto, conocé lo que viene.</p>
     </div>
 
@@ -388,7 +399,12 @@
 
   </div>
 
-  <footer>© 2025 ayni IA · Todos los derechos reservados</footer>
+  <footer>
+    <div class="footer-inner">
+      <img src="ayniAI__logo.png" alt="ayni IA" class="footer-logo">
+      <p class="footer-copy">© 2025 ayni IA · Todos los derechos reservados</p>
+    </div>
+  </footer>
 
   <script>
     // Generate falling particles
