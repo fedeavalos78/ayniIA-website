@@ -3,64 +3,414 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ayni IA</title>
+  <title>ayni IA — Próximamente</title>
   <link rel="icon" type="image/png" href="ayniAI__favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --green: #25D366;
+      --green-dark: #1aad52;
+      --teal: #00e5c3;
+      --bg: #060c10;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #e8f0ee;
+      --muted: rgba(232,240,238,0.45);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #fff;
-      font-family: sans-serif;
-      gap: 2rem;
-      padding: 2rem;
+      gap: 0;
+      overflow-x: hidden;
+      position: relative;
     }
-    .top-text {
-      font-size: 1rem;
-      letter-spacing: 0.15em;
+
+    /* Ambient glow background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,229,195,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(37,211,102,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 50% 50%, rgba(0,180,150,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animated grid lines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,195,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,195,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Falling particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--teal), transparent);
+      animation: fall linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-100px); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    /* Main wrapper */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 780px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 3rem 1.5rem;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,229,195,0.08);
+      border: 1px solid rgba(0,229,195,0.2);
+      color: var(--teal);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #888;
+      animation: fadeSlideDown 0.8s ease both;
     }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Logo */
+    .logo-wrap {
+      animation: fadeSlideDown 0.9s 0.1s ease both;
+    }
+
     .logo {
-      width: 260px;
-      max-width: 80vw;
+      width: 220px;
+      max-width: 70vw;
+      filter: drop-shadow(0 0 30px rgba(0,229,195,0.25));
+      transition: filter 0.3s ease;
     }
-    .contact-link {
+
+    .logo:hover {
+      filter: drop-shadow(0 0 45px rgba(0,229,195,0.45));
+    }
+
+    /* Headline */
+    .headline {
+      text-align: center;
+      animation: fadeSlideDown 0.9s 0.2s ease both;
+    }
+
+    .headline h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, var(--teal) 60%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .headline p {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Divider */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      animation: fadeIn 1s 0.3s both;
+    }
+
+    /* Video */
+    .video-wrap {
+      width: 100%;
+      animation: fadeSlideUp 1s 0.35s ease both;
+    }
+
+    .video-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(0,229,195,0.06),
+        0 20px 60px rgba(0,0,0,0.5),
+        0 0 80px rgba(0,229,195,0.05);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .video-card:hover {
+      box-shadow:
+        0 0 0 1px rgba(0,229,195,0.15),
+        0 24px 70px rgba(0,0,0,0.55),
+        0 0 100px rgba(0,229,195,0.10);
+      transform: translateY(-3px);
+    }
+
+    .video-label {
       display: flex;
       align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      background: #25D366;
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      transition: background 0.2s;
+      gap: 8px;
+      padding: 14px 20px 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
     }
-    .contact-link:hover { background: #1ebe5d; }
+
+    .video-label span {
+      color: var(--teal);
+    }
+
+    .video-label-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .video-ratio {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+    }
+
+    .video-ratio iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Contact button */
+    .contact-wrap {
+      animation: fadeSlideUp 1s 0.5s ease both;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--green) 0%, #1aad52 100%);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.02em;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.3), 0 0 0 0 rgba(37,211,102,0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-link::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .contact-link:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 36px rgba(37,211,102,0.45), 0 0 0 4px rgba(37,211,102,0.12);
+    }
+
+    .contact-link:hover::after {
+      opacity: 1;
+    }
+
     .wa-icon {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       fill: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(232,240,238,0.2);
+      padding-bottom: 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      animation: fadeIn 1.5s 0.8s both;
+    }
+
+    /* Animations */
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 520px) {
+      .contact-link { padding: 14px 24px; font-size: 0.9rem; }
+      .wrapper { gap: 2rem; padding: 2rem 1rem; }
     }
   </style>
 </head>
 <body>
 
-  <p class="top-text">Página en construcción</p>
+  <!-- Falling particles -->
+  <div class="particles" id="particles"></div>
 
-  <img src="ayniAI__logo.png" alt="ayni IA" class="logo">
+  <div class="wrapper">
 
-  <a class="contact-link" href="https://wa.me/543512185252" target="_blank">
-    <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-    Contacto: +54 351 218-5252
-  </a>
+    <!-- Badge -->
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Próximamente
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="ayniAI__logo.png" alt="ayni IA" class="logo">
+    </div>
+
+    <!-- Headline -->
+    <div class="headline">
+      <h1>Inteligencia Artificial<br>al servicio de tu negocio</h1>
+      <p>Estamos construyendo algo increíble. Mientras tanto, conocé lo que viene.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Video -->
+    <div class="video-wrap">
+      <div class="video-card">
+        <div class="video-label">
+          <span class="video-label-dot"></span>
+          <span>Writing Tutor</span> · Formative Feedback
+        </div>
+        <div class="video-ratio">
+          <iframe
+            src="https://www.youtube.com/embed/ZQ7MXtc1nw8?si=trKPjOTipEfSKi09"
+            title="ayni IA — Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-wrap">
+      <a class="contact-link" href="https://wa.me/543512185252" target="_blank">
+        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Contacto: +54 351 218-5252
+      </a>
+    </div>
+
+  </div>
+
+  <footer>© 2025 ayni IA · Todos los derechos reservados</footer>
+
+  <script>
+    // Generate falling particles
+    const container = document.getElementById('particles');
+    const count = 18;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const height = 40 + Math.random() * 120;
+      const duration = 4 + Math.random() * 8;
+      const delay = Math.random() * 10;
+      p.style.cssText = `
+        left: ${left}%;
+        height: ${height}px;
+        animation-duration: ${duration}s;
+        animation-delay: ${delay}s;
+        opacity: 0;
+      `;
+      container.appendChild(p);
+    }
+  </script>
 
 </body>
 </html>
